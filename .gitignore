@@ -21,7 +21,6 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -87,5 +86,6 @@ env.yaml
 app_config.yaml
 staticfiles
 *.tmp
+state.pickle
 
 .vscode
