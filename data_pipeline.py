@@ -1,6 +1,6 @@
 """ """
-import time
-import logging
+# import time
+# import logging
 
 from settings import MONGODB_URL
 from settings import OSM_DATABASE_URL
@@ -24,25 +24,25 @@ class DataPineline():
 
         nearest_road_util = NearestRoad(data=OSM_DATABASE_URL)
 
-        with MongoDBUtil(url=MONGODB_URL) as mongodb_util:
-            print("start time: ", time.time())
+        with MongoDBUtil(url=MONGODB_URL) as mongodb_util:            
             datapoints = mongodb_util.aggregate()
             datapoints = list(map(nearest_road_util.match, datapoints))
             speed_profiler = SpeedProfiler(datapoints)
             results = speed_profiler.start()
-            mongodb_util.store(results)
-            print("endtime: ", time.time())
+            mongodb_util.store(results)            
 
 
     def stop(self):
         """ Stop data pipeline process """
         return
 
+    # def reset(self):
+    #     """ At 00:06 everyday, reset database. """
+    #     with MongoDBUtil(url=MONGODB_URL) as mongodb_util:
+    #         mongodb_util.clean()
+
 
 
 if __name__ == '__main__':
     pipeline = DataPineline()
     pipeline.start()
-
-    # transformed_datapoints = map(nearest_road.match, datapoints)
-    # mongodb_util.insert_processed_data(transformed_datapoints)

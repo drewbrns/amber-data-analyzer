@@ -44,10 +44,6 @@ class NearestRoad(object):
         cursor.execute(
             query, {'lon': datapoint['longitude'], 'lat': datapoint['latitude']}
         )
-
         result = cursor.fetchone()
-
         datapoint['road'] = "{}".format(result[0])
-
-
         return datapoint
