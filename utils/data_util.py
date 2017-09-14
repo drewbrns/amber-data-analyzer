@@ -28,16 +28,18 @@ class MongoDBUtil(object):
         return [loads(doc['value']) for doc in cursor]
 
     def store(self, documents):
-        db = self.client.traffic
-        collection = db.speed_profile
-        collection.insert_many(documents)
+        if isinstance(documents, list) and len(documents) > 0:
+            db = self.client.traffic
+            collection = db.speed_profile
+            collection.insert_many(documents)
 
     def _cleanup(self):
-        db = self.client.traffic
-        collection = db.raw
-        collection.delete_many({
-            '_id': {'$lte': self.mark['_id']}
-        })
+        if self.mark is not None:
+            db = self.client.traffic
+            collection = db.raw
+            collection.delete_many({
+                '_id': {'$lte': self.mark['_id']}
+            })
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._cleanup()

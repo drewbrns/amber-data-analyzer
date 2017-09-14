@@ -26,21 +26,16 @@ class DataPineline():
 
         with MongoDBUtil(url=MONGODB_URL) as mongodb_util:            
             datapoints = mongodb_util.aggregate()
-            datapoints = list(map(nearest_road_util.match, datapoints))
-            speed_profiler = SpeedProfiler(datapoints)
-            results = speed_profiler.start()
-            mongodb_util.store(results)            
+            if isinstance(datapoints, list) and len(datapoints) > 0:
+                datapoints = list(map(nearest_road_util.match, datapoints))
+                speed_profiler = SpeedProfiler(datapoints)
+                results = speed_profiler.start()
+                mongodb_util.store(results)       
 
 
     def stop(self):
         """ Stop data pipeline process """
         return
-
-    # def reset(self):
-    #     """ At 00:06 everyday, reset database. """
-    #     with MongoDBUtil(url=MONGODB_URL) as mongodb_util:
-    #         mongodb_util.clean()
-
 
 
 if __name__ == '__main__':
