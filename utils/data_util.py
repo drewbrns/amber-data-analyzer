@@ -28,7 +28,7 @@ class MongoDBUtil(object):
         return [loads(doc['value']) for doc in cursor]
 
     def store(self, documents):
-        if isinstance(documents, list) and len(documents) > 0:
+        if (len(documents) > 0):
             db = self.client.traffic
             collection = db.speed_profile
             collection.insert_many(documents)
