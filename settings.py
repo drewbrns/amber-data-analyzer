@@ -7,7 +7,7 @@ BASE_DIR = lambda *x: os.path.join(
 
 
 # load the application configuration file
-APP_CONFIG_FILE = BASE_DIR('amber-datapipeline', 'app_config.yaml')
+APP_CONFIG_FILE = BASE_DIR('datapipeline', 'app_config.yaml')
 
 try:
     APP_CONFIG = yaml.load(open(APP_CONFIG_FILE, 'r'))['APP']
