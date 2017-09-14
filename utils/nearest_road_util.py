@@ -5,9 +5,6 @@
 
 import psycopg2
 
-from postgis.psycopg import register
-from postgis import LineString, Point
-
 
 class NearestRoad(object):
     """ """
@@ -15,7 +12,6 @@ class NearestRoad(object):
     def __init__(self, data):
 
         self.db = psycopg2.connect(dbname="gis", user=data.username)
-        register(self.db)
 
     def match(self, datapoint):
         """ """
