@@ -25,7 +25,10 @@ class MongoDBUtil(object):
             self.mark = entry
             break
 
-        return [loads(doc['value'], strict=False) for doc in cursor]
+        # return [loads(doc['value'], strict=False) for doc in cursor]
+        return [
+           loads(doc['value'], strict=False) if type(doc) is not dict else doc['value'] for doc in cursor
+        ]
 
     def store(self, documents):
         if (len(documents) > 0):

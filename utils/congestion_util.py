@@ -20,7 +20,10 @@ def convert_to_hour(x):
 
     start = time.localtime(x)
     end = time.localtime(x + 60*60)
-    return "{} - {}".format(time.strftime("%I:00%p", start), time.strftime("%I:00%p", end))
+    return "{} - {}".format(
+        time.strftime("%I:00%p", start),
+        time.strftime("%I:00%p", end)
+    )
 
 def convert_to_day(x):
     return time.strftime("%a", time.localtime(x))

@@ -2,9 +2,7 @@
  Nearest Road Service - This service associates coordinates (lon,lat) with the road it is closest to.
 """
 
-
 import psycopg2
-
 
 class NearestRoad(object):
     """ """
