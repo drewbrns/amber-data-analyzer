@@ -25,6 +25,11 @@ def convert_to_hour(x):
         time.strftime("%I:00%p", end)
     )
 
+def convert_to_minute(x):
+    if len("{}".format(x)) > 10:
+        x = x / 1000.0
+    return time.strftime("%M", time.localtime(x))    
+
 def convert_to_day(x):
     return time.strftime("%a", time.localtime(x))
 
@@ -35,9 +40,10 @@ class SpeedProfiler(object):
         self.dataframe = pd.DataFrame(data)
 
     def _convert_times(self):
-        """ Private method. Convert epoch time to date & hourly interval"""
+        """ Private method. Convert epoch time to date, hourly interval & minute"""
         self.dataframe['date'] = self.dataframe['timestamp'].apply(convert_to_date)
         self.dataframe['hour'] = self.dataframe['timestamp'].apply(convert_to_hour)
+        self.dataframe['minute'] = self.dataframe['timestamp'].apply(convert_to_minute)
 
     def start(self):
         """ Start speed profiler """
@@ -48,7 +54,8 @@ class SpeedProfiler(object):
         sp = self.dataframe['speed'].groupby([
             self.dataframe['road'],
             self.dataframe['date'],
-            self.dataframe['hour']
+            self.dataframe['hour'],
+            self.dataframe['minute']
         ]).mean()
         sp = sp.to_frame().reset_index()
         sp = sp.to_json(orient='records')
