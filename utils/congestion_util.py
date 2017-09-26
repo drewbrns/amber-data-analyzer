@@ -5,17 +5,23 @@ import json
 
 # Utility functions
 def convert_to_datetime(x):
-    if len("{}".format(x)) > 10:
+    s = str(x)
+    s = s.split('.')[0]
+    if len(s) > 10:
         x = x / 1000.0    
     return time.strftime("%d-%m-%Y %H:%M:%S %p", time.localtime(x))
 
 def convert_to_date(x):
-    if len("{}".format(x)) > 10:
+    s = str(x)
+    s = s.split('.')[0]
+    if len(s) > 10:
         x = x / 1000.0
     return time.strftime("%Y-%m-%d", time.localtime(x))
 
 def convert_to_hour(x):
-    if len("{}".format(x)) > 10:
+    s = str(x)
+    s = s.split('.')[0]
+    if len(s) > 10:
         x = x / 1000.0
 
     start = time.localtime(x)
@@ -26,11 +32,16 @@ def convert_to_hour(x):
     )
 
 def convert_to_minute(x):
-    if len("{}".format(x)) > 10:
+    s = str(x)
+    s = s.split('.')[0]
+    if len(s) > 10:
         x = x / 1000.0
     return time.strftime("%M", time.localtime(x))    
 
 def convert_to_day(x):
+    s = str(x)
+    s = s.split('.')[0]
+    if len(s) > 10:    
     return time.strftime("%a", time.localtime(x))
 
 
