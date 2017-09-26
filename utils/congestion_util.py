@@ -41,8 +41,9 @@ def convert_to_minute(x):
 def convert_to_day(x):
     s = str(x)
     s = s.split('.')[0]
-    if len(s) > 10:        
-       return time.strftime("%a", time.localtime(x))
+    if len(s) > 10:
+        x = x / 1000.0     
+    return time.strftime("%a", time.localtime(x))
 
 
 class SpeedProfiler(object):
