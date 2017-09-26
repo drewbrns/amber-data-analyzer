@@ -31,7 +31,7 @@ def convert_to_hour(x):
         time.strftime("%I:00%p", end)
     )
 
-def convert_to_minute(x):
+def convert_to_minute(x):    
     s = str(x)
     s = s.split('.')[0]
     if len(s) > 10:
@@ -41,8 +41,8 @@ def convert_to_minute(x):
 def convert_to_day(x):
     s = str(x)
     s = s.split('.')[0]
-    if len(s) > 10:    
-    return time.strftime("%a", time.localtime(x))
+    if len(s) > 10:        
+       return time.strftime("%a", time.localtime(x))
 
 
 class SpeedProfiler(object):
