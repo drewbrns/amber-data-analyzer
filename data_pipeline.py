@@ -31,6 +31,7 @@ class DataPineline():
                 speed_profiler = SpeedProfiler(datapoints)
                 results = speed_profiler.start()
                 mongodb_util.store(results)
+                mongodb_util.store(datapoints, col='heatmap')
 
 
     def stop(self):

@@ -30,10 +30,10 @@ class MongoDBUtil(object):
         #    loads(doc['value'], strict=False) if type(doc) is not dict else doc['value'] for doc in cursor
         # ]
 
-    def store(self, documents):
+    def store(self, documents, col='speed_profile'):
         if (len(documents) > 0):
             db = self.client.traffic
-            collection = db.speed_profile
+            collection = db[col]
             collection.insert_many(documents)
 
     def _cleanup(self):
