@@ -1,49 +1,9 @@
 import pandas as pd 
+import numpy as np
 import time
 import json
 
-
-# Utility functions
-def convert_to_datetime(x):
-    s = str(x)
-    s = s.split('.')[0]
-    if len(s) > 10:
-        x = x / 1000.0    
-    return time.strftime("%d-%m-%Y %H:%M:%S %p", time.localtime(x))
-
-def convert_to_date(x):
-    s = str(x)
-    s = s.split('.')[0]
-    if len(s) > 10:
-        x = x / 1000.0
-    return time.strftime("%Y-%m-%d", time.localtime(x))
-
-def convert_to_hour(x):
-    s = str(x)
-    s = s.split('.')[0]
-    if len(s) > 10:
-        x = x / 1000.0
-
-    start = time.localtime(x)
-    end = time.localtime(x + 60*60)
-    return "{} - {}".format(
-        time.strftime("%I:00%p", start),
-        time.strftime("%I:00%p", end)
-    )
-
-def convert_to_minute(x):    
-    s = str(x)
-    s = s.split('.')[0]
-    if len(s) > 10:
-        x = x / 1000.0
-    return time.strftime("%M", time.localtime(x))    
-
-def convert_to_day(x):
-    s = str(x)
-    s = s.split('.')[0]
-    if len(s) > 10:
-        x = x / 1000.0     
-    return time.strftime("%a", time.localtime(x))
+from utils.utils import convert_to_date, convert_to_hour, convert_to_minute
 
 
 class SpeedProfiler(object):
@@ -72,4 +32,38 @@ class SpeedProfiler(object):
         sp = sp.to_frame().reset_index()
         sp = sp.to_json(orient='records')
         return json.loads(sp)
+
+
+class SpeedFileGenerator(object):
+
+    def __init__(self, data):        
+        self.dataframe = pd.DataFrame(data)
+
+    def make_speed_file(self):
+        """ Speed File Generator """
+        #To do:
+        # Optimize this code! I suspect this code would have a lot of performance issues!
+        # Because of the volumes of data involved.
+        
+        # Remove unneeded fields
+        del self.dataframe['date']
+        del self.dataframe['hour']
+
+        # Convert minute and speed columns to int for ease of use. Replace all speed of 0s to 1s
+        # Zeros have special meanings in routing graphs.         
+        self.dataframe['minute'] = self.dataframe['minute'].astype('int')
+        self.dataframe['speed'] = self.dataframe['speed'].astype('uint8')        
+        self.dataframe['speed'] = self.dataframe['speed'].replace(0, 1)
+
+        group_by_road = self.dataframe.groupby(['road'])
+        group_by_min  = group_by_road['minute']
+        max_mins      = group_by_min.max()
+        way_speeds = self.dataframe.loc[self.dataframe['minute'].isin(max_mins.values)].copy()
+        way_speeds['road'] = way_speeds['road'].astype('int32')
+        del way_speeds['minute']
+        way_speeds.rename(columns={'road':'wayid', 'speed':'forward'}, inplace=True)
+        way_speeds['reverse'] = np.zeros(len(way_speeds), dtype=np.uint8)
+        return way_speeds
+
+
     

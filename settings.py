@@ -13,6 +13,7 @@ try:
     APP_CONFIG = yaml.load(open(APP_CONFIG_FILE, 'r'))['APP']
     MONGODB_URL = urlparse(APP_CONFIG.get('MONGODB_URL'))
     OSM_DATABASE_URL = urlparse(APP_CONFIG.get('OSM_DATABASE_URL'))
+    TRAFFIC_CSV_OUTPUT = APP_CONFIG.get('TRAFFIC_CSV_OUTPUT')
 except IOError:
     raise RuntimeError(
         """

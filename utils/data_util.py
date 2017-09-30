@@ -19,22 +19,23 @@ class MongoDBUtil(object):
     def aggregate(self):
         db = self.client.traffic
         collection = db.raw
-
         cursor = collection.find({}).sort('timestamp', DESCENDING)
         for entry in cursor:
             self.mark = entry
             break
-
         return [loads(doc['value'], strict=False) for doc in cursor]
-        # return [
-        #    loads(doc['value'], strict=False) if type(doc) is not dict else doc['value'] for doc in cursor
-        # ]
 
     def store(self, documents, col='speed_profile'):
         if (len(documents) > 0):
             db = self.client.traffic
             collection = db[col]
             collection.insert_many(documents)
+
+    def fetch(self, col, query, skip=0, limit=100):
+        db = self.client.traffic
+        collection = db[col]
+        cursor = collection.find(query).skip(skip).limit(limit)
+        return list(cursor)
 
     def _cleanup(self):
         if self.mark is not None:
