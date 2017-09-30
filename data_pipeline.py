@@ -45,10 +45,12 @@ class DataPineline():
             speed_profiles = mongodb_util.fetch(
                 'speed_profile', 
                 {'date':'{}'.format(date), 'hour': '{}'.format(hour)}
-            )     
-            generator = SpeedFileGenerator(speed_profiles)
-            way_speeds = generator.make_speed_file()
-            way_speeds.to_csv(TRAFFIC_CSV_OUTPUT, index=False)
+            )
+
+            if isinstance(speed_profiles, list) and len(speed_profiles) > 0:     
+                generator = SpeedFileGenerator(speed_profiles)
+                way_speeds = generator.make_speed_file()
+                way_speeds.to_csv(TRAFFIC_CSV_OUTPUT, index=False)
 
 
     def stop(self):

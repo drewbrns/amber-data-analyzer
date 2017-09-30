@@ -45,7 +45,7 @@ class SpeedFileGenerator(object):
         # Optimize this code! I suspect this code would have a lot of performance issues!
         # Because of the volumes of data involved.
         
-        # Remove unneeded fields
+        # Remove un needed fields
         del self.dataframe['date']
         del self.dataframe['hour']
 
@@ -61,9 +61,10 @@ class SpeedFileGenerator(object):
         way_speeds = self.dataframe.loc[self.dataframe['minute'].isin(max_mins.values)].copy()
         way_speeds['road'] = way_speeds['road'].astype('int32')
         del way_speeds['minute']
+        
+        # Convert dataframe to speed file format needed by walhalla
         way_speeds.rename(columns={'road':'wayid', 'speed':'forward'}, inplace=True)
         way_speeds['reverse'] = np.zeros(len(way_speeds), dtype=np.uint8)
+
         return way_speeds
-
-
     

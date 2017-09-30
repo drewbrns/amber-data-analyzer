@@ -1,3 +1,5 @@
+import time
+
 # Utility functions
 def convert_to_datetime(t):
     s = str(t)
