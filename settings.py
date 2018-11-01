@@ -1,23 +1,14 @@
 import os
-import yaml
 from urllib.parse import urlparse
 
-BASE_DIR = lambda *x: os.path.join(
-    os.path.dirname(os.path.dirname(__file__)), *x)
+MONGODB_URI = os.environ.get('MONGODB_URI', 'mongodb://mongo:27017/traffic')
+OSM_HOST = os.environ.get('OSM_HOST', 'db')
+OSM_USER = os.environ.get('OSM_USER', 'postgres')
+OSM_DATABASE = os.environ.get('OSM_DATABASE', 'gis')
 
-
-# load the application configuration file
-APP_CONFIG_FILE = BASE_DIR('data_pipeline', 'app_config.yaml')
-
-try:
-    APP_CONFIG = yaml.load(open(APP_CONFIG_FILE, 'r'))['APP']
-    MONGODB_URL = urlparse(APP_CONFIG.get('MONGODB_URL'))
-    OSM_DATABASE_URL = urlparse(APP_CONFIG.get('OSM_DATABASE_URL'))
-    TRAFFIC_CSV_OUTPUT = APP_CONFIG.get('TRAFFIC_CSV_OUTPUT')
-except IOError:
-    raise RuntimeError(
-        """
-            Configuration file missing.
-            To create one, make a copy of `app_config.sample.yaml` and rename it to app_config.yaml.
-        """
-    )
+options = {
+    'MONGODB_URI': MONGODB_URI,
+    'OSM_HOST': OSM_HOST,
+    'OSM_USER': OSM_USER,
+    'OSM_DATABASE': OSM_DATABASE
+}

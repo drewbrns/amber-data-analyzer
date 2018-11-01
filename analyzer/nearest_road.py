@@ -1,5 +1,5 @@
 """
- Nearest Road Service - This service associates coordinates (lon,lat) with the road it is closest to.
+ Nearest Road - This associates coordinates (lon,lat) with the road it is closest to.
 """
 
 import psycopg2
@@ -7,12 +7,11 @@ import psycopg2
 class NearestRoad(object):
     """ """
 
-    def __init__(self, data):
-
-        self.db = psycopg2.connect(dbname="gis", user=data.username)
+    def __init__(self, host='localhost', user='postgres', dbname='gis'):
+        self.db = psycopg2.connect(host=host, database=dbname, user=user)
 
     def match(self, datapoint):
-        """ """
+        """ Match a gps coordinate to the nearest road """
         query = """ SELECT
                         osm_id, 
                         ST_DistanceSphere( ST_Transform(r.way, 4326), ST_SetSRID(ST_MakePoint(%(lon)s,%(lat)s), 4326) )

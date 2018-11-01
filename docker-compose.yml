@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  db:
+    restart: always
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+  mongo:
+    image: mongo:3.4.10
+    ports:
+      - "27017:27017"
+  analyzer:
+    image: ampsersandlabs/amber-data-analyzer
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8030:8030"
+    env_file: .env
+    links:
+      - mongo
+      - db
+    depends_on:
+      - db
+      - mongo
