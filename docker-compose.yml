@@ -11,7 +11,7 @@ services:
     ports:
       - "27017:27017"
   analyzer:
-    image: ampsersandlabs/amber-data-analyzer
+    image: drewbrns/amber-data-analyzer
     build: .
     volumes:
       - .:/app
