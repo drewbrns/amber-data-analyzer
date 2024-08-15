@@ -1,4 +1,4 @@
-# Amber 
+# Amber - Data Analyzer
 
 A project exploring processing of time-series GPS data collected from an iOS app to generate road traffic information
 
