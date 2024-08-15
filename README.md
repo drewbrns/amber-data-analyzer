@@ -5,9 +5,10 @@ A project exploring processing of time-series GPS data collected from an iOS app
 
 ## Built With
 
-* [Python](https://python.org/) - The web framework used
+* [Python](https://python.org/) - Programming Language
 * [PIP]() - Dependency Management
-* [Jupyter](https://jupyter.org/) - Notebook
+* [Pandas](https://pandas.pydata.org/) - Data wrangling
+* [MongoDB](https://www.mongodb.com/) - Database
 
 
 ## Acknowledgments
